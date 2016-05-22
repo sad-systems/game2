@@ -1,0 +1,5 @@
+{
+    "./scenes/logo.js":"scLogo",
+    "./scenes/title.js":"scTitle",
+    "./scenes/scene1.js":"sc1"
+}

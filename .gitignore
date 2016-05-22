@@ -1,0 +1,18 @@
+# windows thumbnail cache
+Thumbs.db
+
+# composer itself is not needed
+composer.phar
+# composer vendor dir
+/vendor
+
+# phpunit itself is not needed
+phpunit.phar
+# local phpunit config
+/phpunit.xml
+
+# === Master branch ===
+/build
+/lib
+/node_modules
+/tmp
