@@ -10,8 +10,9 @@ var basic          = require('basic'),
     gamepadButtons = require('gamepadButtons'),
     menuScene      = 'scLogo',
     levelMaps      = {
-        level1: require('../tilemaps/level1.json')
-    };
+        level1: 'tilemaps/level1'
+    },
+    levelMain;
 
 var playerMass      = 100,
     playerGravity   = 300,
@@ -79,8 +80,9 @@ var scene = function () {};
             var rootPath = 'assets/';
             if (levelMaps && typeof(levelMaps) === 'object') {
                 for (var levelName in levelMaps) {
-                    if (!levelMaps.mainName) levelMaps.mainName = levelName;
-                    var levelMap = levelMaps[levelName];
+                    if (!levelMain) levelMain = levelName;
+                    //console.log('level name:'+levelName+' : '+levelMaps[levelName]);
+                    var levelMap = require(levelMaps[levelName]); //('../tilemaps/level1.json');
                     this.game.load.tilemap(levelName, null, levelMap, Phaser.Tilemap.TILED_JSON);
                     for (var i=0; i<levelMap.tilesets.length; i++) {
                         var tileset  = levelMap.tilesets[i],
@@ -121,7 +123,7 @@ var scene = function () {};
             //--- Player arsenal (resources):
             this.collectedGoods = [];
             //--- Create tilemap:     
-            var map = this.map = game.add.tilemap(levelMaps.mainName);
+            var map = this.map = game.add.tilemap(levelMain);
             //  map.setTileIndexCallback([53,54,55,56,57,58,59,60,61], this.getPrize, this, 'Prizes');
             //--- Add tilesets:
             for (var i=0; i<map.tilesets.length; i++) {
@@ -357,6 +359,7 @@ var scene = function () {};
                 Fullscreen:{ state:game.scale.isFullScreen, onDown:function(o) { 
                                 game.extentions.sceneManager.gotoFullScreen();
                                 this.resizeGame();
+                                this.setCamera();
                                 o.setState(game.scale.isFullScreen); 
                              }.bind(this) 
                            },
@@ -369,17 +372,22 @@ var scene = function () {};
             //--------------------------------
 
             //--- Set camera:
+            this.setCamera();
+            
+            //--- Start:
+            game.extentions.sceneManager.begin();
+            
+            
+        },
+        
+        setCamera: function() {
+            //--- Set camera:
             this.game.camera.follow(this.player);
             //var h = 160;
             //this.game.camera.deadzone = new Phaser.Rectangle(this.game.camera.width/2, h, 0, this.game.camera.height - h*2);
             var x = this.game.camera.width*0.2,  // %
                 y = this.game.camera.height*0.2; // %    
             this.game.camera.deadzone = new Phaser.Rectangle(x, y, this.game.camera.width - x*2, this.game.camera.height - y*2);
-            
-            //--- Start:
-            game.extentions.sceneManager.begin();
-            
-            
         },
         
         isPlayerBlockedDown: function() {
