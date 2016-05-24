@@ -1,5 +1,6 @@
 {
     "./scenes/logo.js":"scLogo",
     "./scenes/title.js":"scTitle",
-    "./scenes/scene1.js":"sc1"
+    "./scenes/scene1.js":"sc2",
+    "./scenes/scene2.js":"sc1"
 }
