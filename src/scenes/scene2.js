@@ -5,34 +5,25 @@
  *==============================================================================
  */
 
-var playerInstance = require('playerFactory').create();
-
-//------------------------------------------------------------------------------
-
-
-var basic          = require('basic'),
+var 
     toolButtons    = require('toolButtons'),
     gamepadButtons = require('gamepadButtons'),
     menuScene      = 'scLogo',
     levelMaps      = {
         level1: 'tilemaps/level1'
-    },
-    levelMain;
+    };
+    
+//------------------------------------------------------------------------------
+
+var playerInstance = require('playerFactory').create();
+var mapManager     = require('mapManager').create({maps:levelMaps});
+
+//------------------------------------------------------------------------------
 
 var 
     blockMass       = 100,
     blockGravity    = 300,
     blockBounce     = 0.5;
-
-function makeSpriteFromTile(tile, tilemap, game) {
-    var tilesetIndex = tilemap.tiles[tile.index][2],
-        tileset      = tilemap.tilesets[tilesetIndex],
-        sprite       = game.make.sprite(tile.worldX, tile.worldY, tileset.name, tile.index - tileset.firstgid);
-        if (tile.properties) sprite.properties = tile.properties;
-        sprite.parentMapLayer = tile.layer.name;
-    return sprite;
-    //map.createFromTiles(layer.data[row][cell].index, -1, 'P1', i, prizes); //, properties)
-}
 
 //------------------------------------------------------------------------------
 // Scene
@@ -55,36 +46,17 @@ var scene = function () {};
             //this.game.load.spritesheet('prizes', 'assets/sprites/tiles/prizes.png', 32, 25);
             //this.game.load.atlas('prizes',  'assets/sprites/tiles/prizes.png', 'assets/sprites/tiles/prizes.json');
 
-
-
             playerInstance.preload(this.game);
             
-            
-            // Level talemap: --------------------------------------------------
-            var rootPath = 'assets/';
-            if (levelMaps && typeof(levelMaps) === 'object') {
-                for (var levelName in levelMaps) {
-                    if (!levelMain) levelMain = levelName;
-                    //console.log('level name:'+levelName+' : '+levelMaps[levelName]);
-                    var levelMap = require(levelMaps[levelName]); //('../tilemaps/level1.json');
-                    this.game.load.tilemap(levelName, null, levelMap, Phaser.Tilemap.TILED_JSON);
-                    for (var i=0; i<levelMap.tilesets.length; i++) {
-                        var tileset  = levelMap.tilesets[i],
-                            image    = tileset.image;
-                        image = image.replace(new RegExp('^[\.\/]*' + RegExp.escape(rootPath)), rootPath);
-                        //this.game.load.image(tileset.name, image);  //console.log(tileset);
-                        this.game.load.spritesheet(tileset.name, image, tileset.tilewidth, tileset.tileheight);  //console.log(tileset);
-                    }
-                }
-            }
-            //this.game.load.image  ('mapLevel1tiles1', 'assets/sprites/tiles/Blocks.gif');
-            //------------------------------------------------------------------
+            mapManager.preload(this.game);
+
         },
         
         create: function() {
 
             //--- Game settings:
             var game = this.game;
+            
             game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL; //Show the entire game display area while maintaining the original aspect ratio.
             
             //--- Enable the Arcade Physics system:
@@ -93,129 +65,18 @@ var scene = function () {};
             //--- Background:
             //game.add.image(0, 0, 'bg');
             game.add.tileSprite(0, 0, 5000, 700, 'bg');
-
-
-            //--- Create tilemap:     
-            var map = this.map = game.add.tilemap(levelMain);
-            //  map.setTileIndexCallback([53,54,55,56,57,58,59,60,61], this.g_etPrize, this, 'Prizes');
-            //--- Add tilesets:
-            for (var i=0; i<map.tilesets.length; i++) {
-                var tileset  = map.tilesets[i];
-                map.addTilesetImage(tileset.name, tileset.name); // map.addTilesetImage('Blocks', 'mapLevel1tiles1');
-            }             
-            //--- Create layers:
-            this.layers = {
-                platforms: [],
-                stairs:    [],
-                goods:     [],
-                all:       []
-            };
-            for (var i=0; i<map.layers.length; i++) {
-                //--- Create only visible:
-                if (!map.layers[i].visible) continue; 
-                var worldLayer = map.createLayer(i); //console.log(worldLayer);
-                var layer = worldLayer.layer; //map.layers[i];
-                this.layers.all.push(worldLayer); //--- Keep all
-                if (layer.properties) {
-                    //--- Platforms:
-                    if (layer.properties['platform']) {
-                        this.layers.platforms.push(worldLayer);
-                        //--- Find collision tiles:
-                        var collisions = []; //console.log(layer.data);
-                        for (var row in layer.data) {
-                            for (var cell in layer.data[row]) {
-                                if (layer.data[row][cell].index !== -1) collisions.push(layer.data[row][cell].index); 
-                            }
-                        }
-                        //--- Set collisions:
-                        if (collisions.length > 0) 
-                            map.setCollision(collisions, true, i);
-                    }
-                    //--- Stairs:
-                    if (layer.properties['stair']) { 
-                        this.layers.stairs.push(worldLayer);
-                    }
-                    //--- Prizes:
-                    if (layer.properties['prize']) {
-                        var prizes = this.prizes = game.add.group();
-                            prizes.enableBody = true;
-                        for (var row in layer.data) {
-                            for (var cell in layer.data[row]) {
-                                if (layer.data[row][cell].index !== -1) {
-                                    var tile = layer.data[row][cell];
-                                    prizes.add(makeSpriteFromTile(tile, this.map, this.game));
-                                    tile.index = -1; //--- clear tile
-                                }
-                            }
-                        }                        
-                    }
-                    //--- Blocks:
-                    if (layer.properties['block']) {
-                        var blocks = this.blocks = game.add.group();
-                            blocks.enableBody    = true;
-                        for (var row in layer.data) {
-                            for (var cell in layer.data[row]) {
-                                if (layer.data[row][cell].index !== -1) {
-                                    var tile = layer.data[row][cell];
-                                    var sprite = makeSpriteFromTile(tile, this.map, this.game);
-                                    blocks.add(sprite);
-                                    sprite.body.mass      = blockMass;
-                                    sprite.body.gravity.y = blockGravity;
-                                    sprite.body.bounce.y  = blockBounce;
-                                    sprite.body.collideWorldBounds = true;
-                                    tile.index = -1; //--- clear tile
-                                }
-                            }
-                        }
-                    }
-                    //--- Goods:
-                    if (layer.properties['goods']) {
-                        this.layers.goods.push(worldLayer);
-                    }
-                }
-            };
             
-            //--- Resize the world (by the first):
-            if (this.layers.all[0])
-                this.layers.all[0].resizeWorld(); //console.log(this.map.getLayerIndex('Platforms'));
-            
-            //--- Start point:
-            this.startPoint = { x:game.width/2 , y:game.height/2 };
-            
-            //--- Game objects:
-            this.objects = {
-                doors: {}
-            };
-            for (var name in map.objects) {
-                var objs = map.objects[name];
-                for (var j in objs) {
-                    var obj = objs[j];
-                    //--- Start point:
-                    if (obj.type == 1) {
-                        this.startPoint = { x:obj.x, y:obj.y };
-                    }
-                    //--- Exit point:
-                    if (obj.type == 2) {
-                        this.exitPoint = { x:obj.x, y:obj.y };
-                    }                    
-                    //--- Door & Gates:
-                    if (obj.properties && (typeof(obj.properties.lock) != 'undefined' || obj.properties.gate_target)) {
-                        this.objects.doors[obj.name] = obj;
-                    }
-                    //----------
-                };
-            };
-            //console.log('GATES: ', this.objects, map);
-            //------------------------------------------------------------------
+            //--- Map:
+            this.map = mapManager.createMap();
                             
-//--- Player:
-playerInstance.create(this.startPoint.x, this.startPoint.y, {map:this.map, layers:this.layers, objects:this.objects});
-this.player = playerInstance.player;
+            //--- Player:
+            playerInstance.create(mapManager.startPoint.x, mapManager.startPoint.y, {map:mapManager.map, layers:mapManager.layers, objects:mapManager.objects, prizes:mapManager.prizes});
+            this.player = playerInstance.player;
             
             //------------------------------------------------------------------
 
             //--- Gamepad: -------------------
-            var self = this;
+
             var gp = gamepadButtons.create({game:game, buttons:{
                 Up:     { 
                             onDown:playerInstance.actionUp.bind(playerInstance), 
@@ -298,7 +159,7 @@ this.player = playerInstance.player;
             var tb = toolButtons.create({game:game, x:10, y:10, buttons:{
                 Fullscreen:{ state:game.scale.isFullScreen, onDown:function(o) { 
                                 game.extentions.sceneManager.gotoFullScreen();
-                                this.resizeGame();
+                                mapManager.resizeMap();
                                 this.setCamera();
                                 o.setState(game.scale.isFullScreen); 
                              }.bind(this) 
@@ -312,37 +173,26 @@ this.player = playerInstance.player;
             //--------------------------------
 
             //--- Set camera:
-            this.setCamera();
+            game.extentions.sceneManager.setCamera(this.player);
             
             //--- Start:
             game.extentions.sceneManager.begin();
             
-            
-        },
-        
-        setCamera: function() {
-            //--- Set camera:
-            this.game.camera.follow(this.player);
-            //var h = 160;
-            //this.game.camera.deadzone = new Phaser.Rectangle(this.game.camera.width/2, h, 0, this.game.camera.height - h*2);
-            var x = this.game.camera.width*0.2,  // %
-                y = this.game.camera.height*0.2; // %    
-            this.game.camera.deadzone = new Phaser.Rectangle(x, y, this.game.camera.width - x*2, this.game.camera.height - y*2);
         },
         
         update: function() {
             
             //--- Collide the player and the platforms:
-            for (var i in this.layers.platforms)
-                this.game.physics.arcade.collide(this.player, this.layers.platforms[i], function(player, layer) {}, null, this); //platforms
+            for (var i in mapManager.layers.platforms)
+                this.game.physics.arcade.collide(this.player, mapManager.layers.platforms[i], function(player, layer) {}, null, this); //platforms
             //--- Collide the player and the stairs:
-            for (var i in this.layers.stairs)
-                this.game.physics.arcade.collide(this.player, this.layers.stairs[i], function(player, layer) {}, null, this); //stairs
+            for (var i in mapManager.layers.stairs)
+                this.game.physics.arcade.collide(this.player, mapManager.layers.stairs[i], function(player, layer) {}, null, this); //stairs
             //--- Collide the player and the prizes:
               //this.game.physics.arcade.collide(this.player, this.prizes, null, function(player, prize) { this.g_etPrize(prize); return false; }.bind(this),  this); //prizes
-                this.game.physics.arcade.overlap(this.player, this.prizes, function(player, prize) { this.getPrize(prize); return false; }, null, this); //prizes
+              //this.game.physics.arcade.overlap(this.player, this.prizes, function(player, prize) { this.getPrize(prize); return false; }, null, this); //prizes
             //--- Collide blocks:
-                this.game.physics.arcade.collide(this.player, this.blocks,
+                this.game.physics.arcade.collide(this.player, mapManager.blocks,
                     function(player, block) {
                         if (player.body.velocity.x > 0 && player.body.touching.right) { 
                             player.body.velocity.x = playerInstance.velocityMove;
@@ -355,9 +205,9 @@ this.player = playerInstance.player;
                     null,
                     this
                 );
-                this.game.physics.arcade.collide(this.blocks, this.blocks, null, null,  this);
-            for (var i in this.layers.platforms)
-                this.game.physics.arcade.collide(this.blocks, this.layers.platforms[i], function(player, layer) {}, null, this);
+                this.game.physics.arcade.collide(mapManager.blocks, mapManager.blocks, null, null,  this);
+            for (var i in mapManager.layers.platforms) 
+                this.game.physics.arcade.collide(mapManager.blocks, mapManager.layers.platforms[i], function(player, layer) {}, null, this);
 
             //--- Player:
             playerInstance.update();
@@ -377,62 +227,6 @@ this.player = playerInstance.player;
         },        
         
         //----------------------------------------------------------------------
-        
-        resizeGame: function () {
-            for(var i in this.layers.all) {
-                this.layers.all[i].resize(this.game.width, this.game.height);
-            }
-        },
-        
-        
-        /*
-        clearTile: function(tile) {
-            tile.index = 0;
-            tile.alpha = 0;
-            //tile.destroy();
-            tile.layer.dirty = true;
-        },
-        */    
-            
-        
-        /*
-        changeTile: function(tile, index) {
-            //console.log(tile);
-            tile.index = index;
-            //tile.destroy();
-            tile.layer.dirty = true;
-        },
-        */
-        
-        getPrize: function(sprite) { //console.log('Here is a prize');
-            if (typeof(sprite.parentMapLayer) == 'undefined' || !this.isThereSomeCover(sprite.x, sprite.y, sprite.parentMapLayer)) {
-                console.log('I GET the PRIZE:', sprite);
-                sprite.destroy();
-                //if (tile.index === 61)
-                //    this.changeTile(tile, 62); // change
-                //else 
-                //    this.clearTile(tile);      // destroy
-                //return false;
-            }
-        },
-        
-       
-        /**
-         * Find a cover of the current position
-         * 
-         * @returns {Boolean}
-         */
-        isThereSomeCover: function(x, y, layerName) {
-            var layerIndex = this.map.getLayerIndex(layerName);
-            for (var i=layerIndex+1; i<this.map.layers.length; i++) {
-                var tile = this.map.getTileWorldXY(x, y, this.map.tileWidth, this.map.tileHeight, i);
-                if (tile) { // console.log('cover:', tile);
-                    return tile;
-                    break;
-                }
-            }
-            return false;            
-        },
         
         end: null
         
