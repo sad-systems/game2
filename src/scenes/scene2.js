@@ -8,16 +8,11 @@
 var 
     menuScene      = 'scLogo',
     levelMaps      = {
-        level5: 'tilemaps/level5',
-        level2: 'tilemaps/level2',
-        level3: 'tilemaps/level3',
-        level4: 'tilemaps/level4',
-        level1: 'tilemaps/level1'
+        level2: 'tilemaps/level2'
     },
     gameControls   = require('gameControls'),
     playerInstance = require('playerFactory').create(),
-    mapManager     = require('mapManager').create({maps:levelMaps}),
-    stateStorage   = require('stateStorage').getInstance({currentSceneName:'scene1'});
+    mapManager     = require('mapManager').create({maps:levelMaps});
 
 //------------------------------------------------------------------------------
 // Scene
@@ -54,7 +49,7 @@ var scene = function () {};
             playerInstance.create(mapManager.startPoint.x, mapManager.startPoint.y, {mapManager:mapManager});
             
             //--- Create controls:
-            this.alwaysOnTopGroup = gameControls.create(this.game, playerInstance, mapManager, menuScene);
+            gameControls.create(this.game, playerInstance, mapManager, menuScene);
 
             //--- Set camera:
             this.game.extentions.sceneManager.setCamera(playerInstance.player);
@@ -69,8 +64,6 @@ var scene = function () {};
             playerInstance.update();
             //--- Map:
             mapManager.update();
-            //--- Always on top:
-            this.game.world.bringToTop(this.alwaysOnTopGroup);
 
         },
         
