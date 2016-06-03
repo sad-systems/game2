@@ -20,7 +20,10 @@ var config = {
         //'./filename2.js':{expose:expose_name, ...}
         //...
     },
-    requireFiles: './src/application-scenes' //require('./src/application-scenes')
+    requireFiles: [
+        './src/application-scenes',
+        './src/application-maps'
+    ] //require('./src/application-scenes')
         //{
         //'./filename1.js':expose_name, 
         //'./filename2.js':{expose:expose_name, ...}
@@ -50,29 +53,36 @@ gulp.task('watch', function(){
  */
 gulp.task('default', function () {
     
-    function pushData(funcPush, data) {
-        if (data) {
-            if (typeof(data) === 'string') { 
-                var filename = data;
-                //--- Load a data file:
-                data = require(filename);
-                //var extend = require('util')._extend; // clone object (v.1)
-                //data = extend({}, require(filename)); // clone object (v.1)
-                //data = JSON.parse(JSON.stringify(require(filename))); // clone object (v.2)
-                //--- Clear cache:
-                delete require.cache[require.resolve(filename)];
-                //console.log(data);
-            }
-            
-            for (var file in data) {
-                var opt = data[file];
-                if (opt && typeof(opt) === 'string') {
-                    opt = { expose:opt };
-                } else {
-                    var name = file.replace(/^\.+\/|\.js$/gm, '');
-                    opt = { expose:name };
+    function pushData(funcPush, inputData) {
+        if (inputData) {
+            inputData = inputData instanceof Array ? inputData : [inputData];
+            for (var index in inputData) {
+                
+                var data = inputData[index];
+                
+                if (typeof(data) === 'string') { 
+                    var filename = data;
+                    //--- Load a data file:
+                    data = require(filename);
+                    //var extend = require('util')._extend; // clone object (v.1)
+                    //data = extend({}, require(filename)); // clone object (v.1)
+                    //data = JSON.parse(JSON.stringify(require(filename))); // clone object (v.2)
+                    //--- Clear cache:
+                    delete require.cache[require.resolve(filename)];
+                    //console.log(data);
                 }
-                funcPush(file, opt);
+
+                for (var file in data) {
+                    var opt = data[file];
+                    if (opt && typeof(opt) === 'string') {
+                        opt = { expose:opt };
+                    } else {
+                        var name = file.replace(/^\.+\/|\.js$|\.json$/gm, ''); 
+                        opt = { expose:name };
+                    }
+                    funcPush(file, opt); console.log('include: ' + file + ' as ' + opt.expose);
+                }
+                
             }
         }
     };
