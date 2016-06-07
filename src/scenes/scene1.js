@@ -54,7 +54,7 @@ var scene = function () {};
             playerInstance.create(mapManager.startPoint.x, mapManager.startPoint.y, {mapManager:mapManager});
             
             //--- Create controls:
-            this.alwaysOnTopGroup = gameControls.create(this.game, playerInstance, mapManager, menuScene);
+            gameControls.create(this.game, playerInstance, mapManager, menuScene);
 
             //--- Set camera:
             this.game.extentions.sceneManager.setCamera(playerInstance.player);
@@ -69,8 +69,6 @@ var scene = function () {};
             playerInstance.update();
             //--- Map:
             mapManager.update();
-            //--- Always on top:
-            this.game.world.bringToTop(this.alwaysOnTopGroup);
 
         },
         
