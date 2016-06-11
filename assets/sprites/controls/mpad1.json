@@ -1,0 +1,25 @@
+{
+"frames": {
+	"joystick.png": {
+		"frame": {"x":0, "y":0, "w":150, "h":150},
+		"spriteSourceSize": {"x":0,"y":0,"w":150,"h":150},
+		"sourceSize": {"w":150,"h":150}
+	},
+	"default.png": {
+		"frame": {"x":97, "y":151, "w":96, "h":96},
+		"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+		"sourceSize": {"w":96,"h":96}
+	},
+	"hand.png": {
+		"frame": {"x":0, "y":151, "w":96, "h":96},
+		"spriteSourceSize": {"x":0,"y":0,"w":96,"h":96},
+		"sourceSize": {"w":96,"h":96}
+	}
+
+},
+"meta": {
+	"image": "sprites.png",
+	"size": {"w": 194, "h": 248},
+	"scale": "1"
+}
+}

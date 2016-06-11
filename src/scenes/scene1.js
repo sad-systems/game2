@@ -53,6 +53,8 @@ var scene = function () {};
             //--- Create Player:
             playerInstance.create(mapManager.startPoint.x, mapManager.startPoint.y, {mapManager:mapManager});
             
+            //playerInstance.events.on('apply', function(name){ console.log('applied: '+name); });
+            
             //--- Create controls:
             gameControls.create(this.game, playerInstance, mapManager, menuScene);
 
