@@ -5,30 +5,25 @@
  *==============================================================================
  */
 
+var nextScene = 'scMainMenu',
+    controls  = require('mainControls');
+
 //------------------------------------------------------------------------------
 // Scene
 //------------------------------------------------------------------------------
 
-var scene = function () {}; //new Phaser.State();
+var scene = function () {};
 scene.prototype = {
     
     //--------------------------------------------------------------------------
     preload: function () {
         
-        // Static images:
+        //--- Static images:
         this.game.load.image('titleBg', 'assets/bg/title/bg.jpg');
         this.game.load.image('title1',  'assets/bg/title/1.png');
+        //--- Common controls:
+        controls.preload(this.game);
         
-        //--- Test:
-        //this.game.load.image('big1',  'assets/sprites/big1.jpg');
-        //this.game.load.image('big2',  'assets/sprites/big2.jpg');
-        //this.game.load.image('big3',  'assets/sprites/big3.jpg');
-        //this.game.load.image('big4',  'assets/sprites/big4.jpg');
-
-        // Static Spritesheet:
-        //this.game.load.spritesheet('dragon', 'assets/sprites/dragon/dragon.png', 50, 50);
-        // Atlas:
-        //this.game.load.atlas ('dragon', 'assets/sprites/dragon/dragon.png', 'assets/sprites/dragon/dragon.plist'); //, null, Phaser.Loader.TEXTURE_ATLAS_XML_STARLING);
     },
     
     //--------------------------------------------------------------------------
@@ -39,6 +34,10 @@ scene.prototype = {
 
         game.add.image(0, 0, 'titleBg');
 
+        //--- Common controls:
+        controls.create(this.game);
+        controls.onResize = function() {};
+        
     },
     
     //--------------------------------------------------------------------------

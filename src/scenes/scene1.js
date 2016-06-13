@@ -6,7 +6,7 @@
  */
 
 var 
-    menuScene      = 'scLogo',
+    menuScene      = 'scMainMenu', //'scLogo',
     levelMaps      = {
         level5: 'tilemaps/level5',
         level2: 'tilemaps/level2',
