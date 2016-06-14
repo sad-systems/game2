@@ -1,5 +1,6 @@
 {
     "./scenes/logo.js":"scLogo",
+    "./scenes/help.js":"scHelp",
     "./scenes/title.js":"scTitle",
     "./scenes/mainMenu.js":"scMainMenu",
     "./scenes/scene1.js":"scene1",
