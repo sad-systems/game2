@@ -8,8 +8,22 @@
 var run = function () {
 //------------------------------------------------------------------------------
 
-    var sceneManager  = require('sceneManager');
-    var config        = require('./application-config.js');
+    var sceneManager  = require('sceneManager'),
+        config        = require('./application-config.js'),
+        globals       = require('globals'),
+        cookies       = require('cookies');
+    
+    //--- Set language:
+    globals.lang  = cookies.read('language') || globals.lang;
+    
+    switch (globals.lang) {
+        case 'ru': window.__messages = require('./lang/ru/messages');
+            break;
+        default:   window.__messages = require('./lang/en/messages');  
+    }
+    
+    window.__ = function(text) { return window.__messages[text] ? window.__messages[text] : text; };
+    //----------------
 
     var bootScene = function () {};
         bootScene.prototype = {
@@ -25,7 +39,8 @@ var run = function () {
                 var game = this.game;
                 //--- Add game extentions:
                 game.extentions = {
-                    sceneManager:sceneManager.create(game)
+                    sceneManager: sceneManager.create(game),
+                    globals:      globals
                 };
                 //--- Load & start main scene:
                 var mainSceneName = config.mainSceneName;

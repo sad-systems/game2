@@ -6,8 +6,8 @@
  */
 
 var controls    = require('mainControls'),
-    menu        = require('textMenu'),
-    toolButtons = require('toolButtons');
+    uiManager   = require('uiManager'),
+    textStyles  = require('textStyles');
 
 //------------------------------------------------------------------------------
 // Scene
@@ -33,6 +33,9 @@ scene.prototype = {
         game.extentions.sceneManager.begin();
 
         game.add.image(0, 0, 'helpBg');
+        
+        ui = uiManager.create(game, { styles:textStyles });
+        game.world.add(ui.createButton(__('Back'), { onDown:function(){ game.extentions.sceneManager.next('scMainMenu'); }, x:10, y:game.height - 10, anchorX:'left', anchorY:'bottom' }));
         
         //--- Common controls:
         controls.create(this.game);

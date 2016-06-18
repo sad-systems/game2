@@ -6,8 +6,12 @@
  */
 
 var controls    = require('mainControls'),
-    menu        = require('textMenu'),
-    toolButtons = require('toolButtons');
+    uiManager   = require('uiManager'),
+    textStyles  = require('textStyles'),
+    toolButtons = require('toolButtons'),
+    cookies     = require('cookies');
+
+var ui;
 
 //------------------------------------------------------------------------------
 // Scene
@@ -19,12 +23,14 @@ scene.prototype = {
     //--------------------------------------------------------------------------
     preload: function () {
         
+        var globals = this.game.extentions.globals;
+        
         //--- Static images:
         this.game.load.image('menuBg', 'assets/bg/title/bg.jpg');
-        this.game.load.image('title2', 'assets/bg/title/title-en.png');
-        //this.game.load.image('title2', 'assets/bg/title/title-ru.png');
+        this.game.load.image('title2', 'assets/bg/title/title-' + globals.lang + '.png');
         this.game.load.image('mrdigger', 'assets/bg/intro/mrdigger.png');
         this.game.load.image('circle',   'assets/bg/intro/circle.png');
+        
         //--- Common controls:
         controls.preload(this.game);
 
@@ -33,26 +39,29 @@ scene.prototype = {
     //--------------------------------------------------------------------------
     create: function () {
 
-        var game = this.game;
+        var game    = this.game,
+            globals = game.extentions.globals;
+        
         game.extentions.sceneManager.begin();
 
         game.add.image(0, 0, 'menuBg');
+        
+        ui = uiManager.create(game, { styles:textStyles });
         
         var title = this.title = game.add.image(this.game.camera.view.centerX, 0, 'title2');
             title.y = 0 - title.height/2;
             title.anchor.set(0.5);
         
         //--- Main menu:
-        var mainMenu = this.mainMenu = menu.create(this.game, {
-            y : this.game.height,
-            items: [
-                {text: 'New game',    onDown:function(o){ game.extentions.sceneManager.next('scene1'); } },
-                {text: 'Resume',      disable:true, onDown:function(o){ game.extentions.sceneManager.next('scene1'); } },
-                {text: 'Options',     onDown:this.showOptions.bind(this) },
-                {text: 'Help',        onDown:function(o){ game.extentions.sceneManager.next('scHelp'); } },
-                {text: 'Credits',     onDown:this.showCredits.bind(this) }
-            ]
-        });
+        var mainMenu = this.mainMenu = {};
+        var data = [
+                {button: __('New game'), options: { onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } },
+                {button: __('Resume'),   options: { disable:true, onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } },
+                {button: __('Options'),  options: { onDown:this.showOptions.bind(this) } },
+                {button: __('Help'),     options: { onDown:function(o){ game.extentions.sceneManager.next('scHelp'); } } },
+                {button: __('Credits'),  options: { onDown:this.showCredits.bind(this) } }
+        ];
+        mainMenu.group = ui.createGroup( data, {spaceY:5, x:this.game.camera.view.centerX, y:this.game.height} );
         
         //--- Options menu:
         var optionsMenu = this.createOptions();
@@ -63,16 +72,23 @@ scene.prototype = {
         //--- Animations:
             this.showMainMenu(null, 1000);
             this.showTitle(1000);
-        
+            
         //--- Tools buttons:
         var tb = toolButtons.create({game:game, x:10, y:10,
             leftSide: false,
             frameControlName : null,
             buttons:{
-                Music: { state:0, onDown:function(o){ o.setState(!o.state); console.log('Music: ' + o.state); } },
-                Sound: { state:0, onDown:function(o){ o.setState(!o.state); console.log('Sound: ' + o.state); } }
+                Music: { state:globals.musicEnable, onDown:function(o){ o.setState(!o.state); globals.musicEnable = o.state; } },
+                Sound: { state:globals.soundEnable, onDown:function(o){ o.setState(!o.state); globals.soundEnable = o.state; } }
             }
         });
+        
+        //--- Language button:
+        function changeLang() {
+            cookies.create('language', globals.lang == 'en' ? 'ru' : 'en', 30);
+            document.location.reload();
+        };
+        this.game.world.add(ui.createButton('', { onDown:changeLang, x:87, y:10, img: {frame: (globals.lang == 'en' ? 'Russian.png' : 'English.png'), key:'toolButtons'} }));
         
         //--- Common controls:
         controls.create(this.game);
@@ -143,92 +159,97 @@ scene.prototype = {
         
     },     
     
-    styles: {
-        
-        label: {
-            fill            : '#ffd801',
-            stroke          : '#bb9c2e',// '#296e2d',
-            strokeThickness : 5,
-            shadowOffsetX   : 3,
-            shadowOffsetY   : 3,
-            shadowFill      : true,
-            shadowBlur      : 3,
-            shadowColor     : 'rgba(0,0,0,0.5)'
-        }
-    },
-    
-    setStyle: function(obj, styleName) {
-        var style = this.styles[styleName];
-        for (var i in style) {
-            obj[i] = style[i];
-        }
-    }, 
-    
-    createLabel: function (x, y, text) {
-        var label = this.game.make.text(x, y, text);
-            label.anchor.set(0.5, 0);
-        this.setStyle(label, 'label');
-        return label;
-    },
-    
+    //==========================================================================
+    // Options
+    //==========================================================================
+
     createOptions: function () {
         
-        var self = this;
-        
-        function createButton(x, y, name) {
-            var bt = self.game.make.button(x, y, 'toolButtons', null, this, name+'.png', name+'.png', name+'.png');
-                bt._alpha = 0.75;
-                bt.alpha = bt._alpha;
-                bt.onInputOver.add(function(o){ o.alpha = 1; });
-                bt.onInputOut.add (function(o){ o.alpha = o._alpha; });
-                //bt.onInputOver.add(function(o){ o.blendMode = PIXI.blendModes.SCREEN; });
-                //bt.onInputOut.add (function(o){ o.blendMode = PIXI.blendModes.NORMAL; });
-                //bt.onInputDown.add(button.onDown);
-            return bt;    
-        };
+        var globals = this.game.extentions.globals;
         
         //--- Options menu:
-        var optionsMenu     = this.optionsMenu = {};
-        optionsMenu.group   = this.game.add.group();
-        optionsMenu.group.x = this.game.camera.view.centerX;
-        optionsMenu.group.y = this.game.height;
+        var optionsMenu = this.optionsMenu = {};
+        var group       = optionsMenu.group = this.game.add.group(),
+            y,
+            radioButtons;        
+        group.x = this.game.camera.view.centerX;
+        group.y = this.game.height;
+
         //--- Game control:
-        optionsMenu.group.add(this.createLabel(0, 0, 'Game control:'));
-        optionsMenu.group.add(createButton(-75, 40, 'Gamepad'));
-        optionsMenu.group.add(createButton(-25, 40, 'Gamepad2'));
-        optionsMenu.group.add(createButton( 25, 40, 'Keyboard'));
+        group.add(ui.createLabel(__('Game control')+':'));
+        
+        function selectOption(button) {
+            for(var i in radioButtons) radioButtons[i].setState(0);
+            button.setState(1);
+            setStateForId(button.options.id, 1);
+        }
+        
+        function setStateForId(id, state) {
+            globals.gameControl = id;
+            return state;
+        }
+        
+        function getStateForId(id) {
+            return globals.gameControl == id ? 1 : 0;
+        }
+
+        y = group.height;
+        radioButtons = [
+            ui.createButton('', {id:1, state:getStateForId(1), x:-55, y:y, img:{frame:'Gamepad.png',  key:'toolButtons'}, onDown:selectOption }),
+            ui.createButton('', {id:2, state:getStateForId(2), x:  0, y:y, img:{frame:'Gamepad2.png', key:'toolButtons'}, onDown:selectOption }),
+            ui.createButton('', {id:0, state:getStateForId(0), x: 55, y:y, img:{frame:'Keyboard.png', key:'toolButtons'}, onDown:selectOption })
+        ];
+        
+        for(var i in radioButtons) group.add( radioButtons[i] );
+        
         //--- Button back:
-        var btBack = menu.create(this.game, {
-            x : 0, 
-            y : 180,
-            items: [ {text: 'Back', onDown:this.hideOptions.bind(this) } ]
-        });        
-        optionsMenu.group.add(btBack.group);
+        optionsMenu.group.add(ui.createButton(__('Back'), { onDown:this.hideOptions.bind(this), y:group.height + 100 }));
         
         return optionsMenu;
         
     },
     
+    //==========================================================================
+    // Credits
+    //==========================================================================
+    
     createCredits: function() {
+        
         //--- Credits menu:
-        var creditsMenu     = this.creditsMenu = {};
-        creditsMenu.group   = this.game.add.group();
-        creditsMenu.group.x = this.game.camera.view.centerX;
-        creditsMenu.group.y = this.game.height;
-        //---
-        var img = this.game.make.image(5, 75, 'circle');
-            img.anchor.set(0.5);
-        creditsMenu.group.add(img);
-        var img = this.game.make.image(0, 70, 'mrdigger');
-            img.anchor.set(0.5);
-        creditsMenu.group.add(img);
-        //--- Button back:
-        var btBack = menu.create(this.game, {
-            x : 0,
-            y : this.game.height - 80,
-            items: [ {text: 'Back', onDown:this.hideCredits.bind(this) } ]
-        });   
-        creditsMenu.group.add(btBack.group);
+        var creditsMenu = this.creditsMenu = {};
+
+        var data = [
+                __('Design, graphics, music,\nanimation and programming by') + ':'
+            ,
+            {
+                img:'mrdigger'
+            },
+            {
+                link:['http://sad-systems.ru/#team', 'Mr Digger'], //'mailto:sad-systems@mail.ru'
+                options:{ y: +10 } // style:'name',
+            },
+            {
+                text:'\n' + '© 2016 SAD-Systems',
+                options:{ style:'smallText' }
+            },
+            {
+                link:'http://sad-systems.ru'
+            },
+            {
+                text:'\n' + __('Powered by') + ' Phaser 2.4.8',
+                options:{ style:'smallText' }
+            },
+            {
+                link:'http://phaser.io'
+            },
+            {
+                button:__('Back'),
+                options: { y:20, onDown:this.hideCredits.bind(this) }
+            }
+            
+        ];
+        
+        creditsMenu.group = ui.createGroup(data, {x:this.game.camera.view.centerX, y:this.game.height} );
         
         return creditsMenu;
     },

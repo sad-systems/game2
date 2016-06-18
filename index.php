@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <?php
 $config = [
-    'title'       => 'The game 1',
+    'title'       => 'Advantures of Tosha - Enchanted Castle',
     'description' => '(c) 2016 SAD Systems - Game project',
-    'keywords'    => 'game, html5, sad-systems',
+    'keywords'    => 'game, html5, phaser, sad-systems',
 ];
 extract($config);
 ?>
