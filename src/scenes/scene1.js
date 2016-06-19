@@ -38,11 +38,19 @@ var scene = function () {};
             playerInstance.preload(this.game);
             //--- Map:
             mapManager.preload(this.game);
+            
+            //--- Music & Sounds:
+            this.game.load.audio('music1',      'assets/audio/track1.mp3');
+            this.game.load.audio('soundforest', 'assets/audio/forest.mp3');
 
         },
         
         create: function() {
 
+            //--- Music & Sounds:
+            this.game.extentions.audio.music.play('music1', true, 0.5);
+            this.game.extentions.audio.sound.play('soundforest', 2);
+            
             //--- Background:
             var bg = this.game.add.tileSprite(0, 0, 5000, 700, 'background');
                 bg.fixedToCamera = true;

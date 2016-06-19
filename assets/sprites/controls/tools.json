@@ -69,11 +69,21 @@
 		"frame": {"x":50, "y":300, "w":50, "h":50},
 		"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
 		"sourceSize": {"w":50,"h":50}
+	},
+	"Ready.png": {
+		"frame": {"x":100, "y":0, "w":50, "h":50},
+		"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+		"sourceSize": {"w":50,"h":50}
+	},
+	"FireReady.png": {
+		"frame": {"x":100, "y":50, "w":50, "h":50},
+		"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+		"sourceSize": {"w":50,"h":50}
 	}
 },
 "meta": {
 	"image": "sprites.png",
-	"size": {"w": 100, "h": 350},
+	"size": {"w": 150, "h": 350},
 	"scale": "1"
 }
 }

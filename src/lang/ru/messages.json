@@ -1,5 +1,6 @@
 {
     "Loading" : "Загружается",
+    "Play"    : "Играть",
     "New game": "Новая игра",
     "Resume"  : "Продолжить",
     "Options" : "Опции",
@@ -13,5 +14,5 @@
     "Design, graphics, music,\nanimation and programming by" : "Дизайн, графика, музыка,\nанимация и программирование",
     "Powered by": "При поддержке",
     
-    "":""
+    "demo":"демо"
 }

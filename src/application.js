@@ -11,7 +11,8 @@ var run = function () {
     var sceneManager  = require('sceneManager'),
         config        = require('./application-config.js'),
         globals       = require('globals'),
-        cookies       = require('cookies');
+        cookies       = require('cookies'),
+        audioManager  = require('audioManager');
     
     //--- Set language:
     globals.lang  = cookies.read('language') || globals.lang;
@@ -21,7 +22,7 @@ var run = function () {
             break;
         default:   window.__messages = require('./lang/en/messages');  
     }
-    
+    //--- Translate global function: 
     window.__ = function(text) { return window.__messages[text] ? window.__messages[text] : text; };
     //----------------
 
@@ -37,10 +38,12 @@ var run = function () {
                 console.log('The game application by MrDigger (c) SAD-Systems [http://sad-systems.ru]');
                 
                 var game = this.game;
+                
                 //--- Add game extentions:
                 game.extentions = {
                     sceneManager: sceneManager.create(game),
-                    globals:      globals
+                    globals:      globals,
+                    audio:        audioManager.create(game, { musicEnable:globals.musicEnable, soundEnable:globals.soundEnable })
                 };
                 //--- Load & start main scene:
                 var mainSceneName = config.mainSceneName;

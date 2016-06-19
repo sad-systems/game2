@@ -31,6 +31,9 @@ scene.prototype = {
         this.game.load.image('mrdigger', 'assets/bg/intro/mrdigger.png');
         this.game.load.image('circle',   'assets/bg/intro/circle.png');
         
+        //--- Music:
+        this.game.load.audio('intro', 'assets/audio/intro.mp3');
+        
         //--- Common controls:
         controls.preload(this.game);
 
@@ -40,8 +43,11 @@ scene.prototype = {
     create: function () {
 
         var game    = this.game,
-            globals = game.extentions.globals;
-        
+            globals = game.extentions.globals,
+            audio   = game.extentions.audio;
+    
+        audio.music.play('intro', true);
+
         game.extentions.sceneManager.begin();
 
         game.add.image(0, 0, 'menuBg');
@@ -55,13 +61,13 @@ scene.prototype = {
         //--- Main menu:
         var mainMenu = this.mainMenu = {};
         var data = [
-                {button: __('New game'), options: { onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } },
-                {button: __('Resume'),   options: { disable:true, onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } },
+                {button: __('Play'),     options: { onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } },
+                //{button: __('Resume'),   options: { disable:true, onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } },
                 {button: __('Options'),  options: { onDown:this.showOptions.bind(this) } },
                 {button: __('Help'),     options: { onDown:function(o){ game.extentions.sceneManager.next('scHelp'); } } },
                 {button: __('Credits'),  options: { onDown:this.showCredits.bind(this) } }
         ];
-        mainMenu.group = ui.createGroup( data, {spaceY:5, x:this.game.camera.view.centerX, y:this.game.height} );
+        mainMenu.group = ui.createGroup( data, {spaceY:15, x:this.game.camera.view.centerX, y:this.game.height} );
         
         //--- Options menu:
         var optionsMenu = this.createOptions();
@@ -78,8 +84,8 @@ scene.prototype = {
             leftSide: false,
             frameControlName : null,
             buttons:{
-                Music: { state:globals.musicEnable, onDown:function(o){ o.setState(!o.state); globals.musicEnable = o.state; } },
-                Sound: { state:globals.soundEnable, onDown:function(o){ o.setState(!o.state); globals.soundEnable = o.state; } }
+                Music: { state:audio.getMusicState(), onDown:function(o){ o.setState(audio.toggleMusicState()); } },
+                Sound: { state:audio.getSoundState(), onDown:function(o){ o.setState(audio.toggleSoundState()); } }
             }
         });
         
@@ -89,6 +95,7 @@ scene.prototype = {
             document.location.reload();
         };
         this.game.world.add(ui.createButton('', { onDown:changeLang, x:87, y:10, img: {frame: (globals.lang == 'en' ? 'Russian.png' : 'English.png'), key:'toolButtons'} }));
+        this.game.world.add(ui.createLabel(__('demo'), { x:10, y:70, style:'smallText', anchorX:'left' }));
         
         //--- Common controls:
         controls.create(this.game);
@@ -236,7 +243,10 @@ scene.prototype = {
                 link:'http://sad-systems.ru'
             },
             {
-                text:'\n' + __('Powered by') + ' Phaser 2.4.8',
+                link:'http://ocarius.ru'
+            },            
+            {
+                text:'\n' + __('Powered by') + ' Phaser ' + Phaser.VERSION,
                 options:{ style:'smallText' }
             },
             {
@@ -244,7 +254,7 @@ scene.prototype = {
             },
             {
                 button:__('Back'),
-                options: { y:20, onDown:this.hideCredits.bind(this) }
+                options: { y:10, onDown:this.hideCredits.bind(this) }
             }
             
         ];

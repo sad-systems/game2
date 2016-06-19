@@ -23,6 +23,9 @@ scene.prototype = {
         this.game.load.image('helpBg', 'assets/bg/title/bg.jpg');
         //--- Common controls:
         controls.preload(this.game);
+        //--- Music & Sounds:
+        this.game.load.audio('musichelp', 'assets/audio/track1.mp3');
+
 
     },
     
@@ -30,7 +33,9 @@ scene.prototype = {
     create: function () {
 
         var game = this.game;
+        game.extentions.audio.music.play('musichelp');
         game.extentions.sceneManager.begin();
+
 
         game.add.image(0, 0, 'helpBg');
         

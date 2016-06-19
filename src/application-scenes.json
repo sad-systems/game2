@@ -1,8 +1,7 @@
 {
-    "./scenes/logo.js":"scLogo",
-    "./scenes/help.js":"scHelp",
-    "./scenes/title.js":"scTitle",
+    "./scenes/logo.js"    :"scLogo",
+    "./scenes/help.js"    :"scHelp",
     "./scenes/mainMenu.js":"scMainMenu",
-    "./scenes/scene1.js":"scene1",
-    "./scenes/scene2.js":"scene2"
+    "./scenes/scene1.js"  :"scene1",
+    "./scenes/scene2.js"  :"scene2"
 }
