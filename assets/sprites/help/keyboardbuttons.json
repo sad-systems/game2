@@ -1,0 +1,29 @@
+{
+"frames": {
+	"Arrows": {
+		"frame": {"x":0, "y":0, "w":105, "h":70},
+		"spriteSourceSize": {"x":0,"y":0,"w":105,"h":70},
+		"sourceSize": {"w":105,"h":70}
+	},
+        "Alt": {
+		"frame": {"x":0, "y":70, "w":47, "h":35},
+		"spriteSourceSize": {"x":0,"y":0,"w":47,"h":35},
+		"sourceSize": {"w":47,"h":35}
+        },
+        "Space-en": {
+		"frame": {"x":0, "y":105, "w":105, "h":35},
+		"spriteSourceSize": {"x":0,"y":0,"w":105,"h":35},
+		"sourceSize": {"w":105,"h":35}
+	},
+        "Space-ru": {
+		"frame": {"x":0, "y":140, "w":105, "h":35},
+		"spriteSourceSize": {"x":0,"y":0,"w":105,"h":35},
+		"sourceSize": {"w":105,"h":35}
+	}
+},
+"meta": {
+	"image": "keyboardbuttons.png",
+	"size": {"w": 105, "h": 175},
+	"scale": "1"
+}
+}
