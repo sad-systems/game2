@@ -1,3 +1,17 @@
 {
+    "_Main_character_": "This is Tosha. He likes to run, jump, collect a variety of items\nand to belch flames, if he eats somthing spesial...",
+    "_Move_": "Movement",
+    "_Alt_": "To take items, to open doors,\nto come into the door",
+    "_Space_": "To belch flames",
+    "_Arsenal_": "Arsenal. The place for the collected items.\nThe item is laid out if the button is pressed.",    
+    
+    "_Tools_": "Settings buttons",
+    "_Settings_": "Show/hide the settings panel",
+    "_Menu_": "Return to the main menu (and save the current game)",
+    "_Fullscreen_": "Full screen mode",
+    "_Gamepad_": "On/off gamepad",
+    "_Music_": "On/off background music",
+    "_Sound_": "On/off sounds",
+    
     "": ""
 }
