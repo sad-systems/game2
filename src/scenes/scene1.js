@@ -40,7 +40,7 @@ var scene = function () {};
             mapManager.preload(this.game);
             
             //--- Music & Sounds:
-            this.game.load.audio('music1',      'assets/audio/track1.mp3');
+            //this.game.load.audio('music1',      'assets/audio/track1.mp3');
             this.game.load.audio('soundforest', 'assets/audio/forest.mp3');
 
         },
@@ -48,7 +48,8 @@ var scene = function () {};
         create: function() {
 
             //--- Music & Sounds:
-            this.game.extentions.audio.music.play('music1', true, 0.5);
+            this.game.extentions.audio.music.stop(); //<--- stop all music
+            //this.game.extentions.audio.music.play('music1', true, 0.5);
             this.game.extentions.audio.sound.play('soundforest', 2);
             
             //--- Background:

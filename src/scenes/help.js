@@ -55,7 +55,8 @@ scene.prototype = {
         //--- Help sections:
         var sections = [
             this.craeteHelp1(10, 10),
-            this.craeteHelp2(10, 10)
+            this.craeteHelp2(10, 10),
+            this.craeteHelp3(10, 10)
         ];
         
         //--- Create help sections pagination:
@@ -262,9 +263,10 @@ scene.prototype = {
         
         var data = [
             {
-                label: __('Something else'),
+                label: __('_The_goal_'),
                 options:{ x: this.game.width/2, anchorX:'center' }
             },
+            { text: __('_The_goal_text_'), options: {} }
             
         ];
         
