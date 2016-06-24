@@ -203,7 +203,7 @@ scene.prototype = {
             },
             {
                 img:'keyboard',
-                options: {frame:'Space-' + this.game.extentions.globals.lang, y:+5}
+                options: {frame:'Space-' + this.game.extentions.globals.get('lang'), y:+5}
             },
             {
                 img:'toolButtons',
