@@ -27,7 +27,7 @@ scene.prototype = {
         
         //--- Static images:
         this.game.load.image('menuBg', 'assets/bg/title/bg.jpg');
-        this.game.load.image('title2', 'assets/bg/title/title-' + globals.lang + '.png');
+        this.game.load.image('title2', 'assets/bg/title/title-' + globals.get('lang') + '.png');
         this.game.load.image('mrdigger', 'assets/bg/intro/mrdigger.png');
         this.game.load.image('circle',   'assets/bg/intro/circle.png');
         
@@ -84,17 +84,17 @@ scene.prototype = {
             leftSide: false,
             frameControlName : null,
             buttons:{
-                Music: { state:audio.getMusicState(), onDown:function(o){ o.setState(audio.toggleMusicState()); } },
-                Sound: { state:audio.getSoundState(), onDown:function(o){ o.setState(audio.toggleSoundState()); } }
+                Music: { state:audio.getMusicState(), onDown:function(o){ o.setState(audio.toggleMusicState()); globals.set('musicEnable', audio.getMusicState()); } },
+                Sound: { state:audio.getSoundState(), onDown:function(o){ o.setState(audio.toggleSoundState()); globals.set('soundEnable', audio.getSoundState()); } }
             }
         });
         
         //--- Language button:
         function changeLang() {
-            cookies.create('language', globals.lang == 'en' ? 'ru' : 'en', 30);
+            globals.set('lang', globals.get('lang') == 'en' ? 'ru' : 'en');
             document.location.reload();
         };
-        this.game.world.add(ui.createButton('', { onDown:changeLang, x:87, y:10, img: {frame: (globals.lang == 'en' ? 'Russian.png' : 'English.png'), key:'toolButtons'} }));
+        this.game.world.add(ui.createButton('', { onDown:changeLang, x:87, y:10, img: {frame: (globals.get('lang') == 'en' ? 'Russian.png' : 'English.png'), key:'toolButtons'} }));
         this.game.world.add(ui.createLabel(__('demo'), { x:10, y:70, style:'smallText', anchorX:'left' }));
         
         //--- Common controls:
@@ -192,12 +192,12 @@ scene.prototype = {
         }
         
         function setStateForId(id, state) {
-            globals.gameControl = id;
+            globals.set('gameControl', id);
             return state;
         }
         
         function getStateForId(id) {
-            return globals.gameControl == id ? 1 : 0;
+            return globals.get('gameControl') == id ? 1 : 0;
         }
 
         y = group.height;

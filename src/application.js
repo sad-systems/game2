@@ -8,16 +8,16 @@
 var run = function () {
 //------------------------------------------------------------------------------
 
-    var sceneManager  = require('sceneManager'),
-        config        = require('./application-config.js'),
+    var config        = require('./application-config.js'),
         globals       = require('globals'),
-        cookies       = require('cookies'),
+        sceneManager  = require('sceneManager'),
         audioManager  = require('audioManager');
     
-    //--- Set language:
-    globals.lang  = cookies.read('language') || globals.lang;
+    //--- Load global data:
+    globals.load();
     
-    switch (globals.lang) {
+    //--- Set language:
+    switch (globals.get('lang')) {
         case 'ru': window.__messages = require('./lang/ru/messages');
             break;
         default:   window.__messages = require('./lang/en/messages');  
@@ -43,7 +43,7 @@ var run = function () {
                 game.extentions = {
                     sceneManager: sceneManager.create(game),
                     globals:      globals,
-                    audio:        audioManager.create(game, { musicEnable:globals.musicEnable, soundEnable:globals.soundEnable })
+                    audio:        audioManager.create(game, { musicEnable:globals.get('musicEnable'), soundEnable:globals.get('soundEnable') })
                 };
                 //--- Load & start main scene:
                 var mainSceneName = config.mainSceneName;
