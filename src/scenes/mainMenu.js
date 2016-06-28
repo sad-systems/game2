@@ -9,7 +9,7 @@ var controls    = require('mainControls'),
     uiManager   = require('uiManager'),
     textStyles  = require('textStyles'),
     toolButtons = require('toolButtons'),
-    cookies     = require('cookies');
+    gameStorage = require('gameStorage');
 
 var ui;
 
@@ -58,10 +58,26 @@ scene.prototype = {
             title.y = 0 - title.height/2;
             title.anchor.set(0.5);
         
+        //--- New game button:
+        var newGameButton = { button: __('New game'), options: { onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } };
+        
+        //--- Load last game:
+        var lastGameData = gameStorage.load(globals.get('gameName')),
+            resumeButton = null;
+        if (lastGameData) {
+            resumeButton = { button: __('Resume'),   options: { onDown:function(o){
+                //--- Restore old game data:
+                gameStorage.init();
+                //--- Goto scene:
+                game.extentions.sceneManager.next(lastGameData.scene); 
+            } } };
+        }
+        
         //--- Main menu:
         var mainMenu = this.mainMenu = {};
         var data = [
-                {button: __('Play'),     options: { onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } },
+                resumeButton,
+                newGameButton,
                 //{button: __('Resume'),   options: { disable:true, onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } },
                 {button: __('Options'),  options: { onDown:this.showOptions.bind(this) } },
                 {button: __('Help'),     options: { onDown:function(o){ game.extentions.sceneManager.next('scHelp'); } } },

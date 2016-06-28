@@ -15,7 +15,7 @@ var
         level1: 'tilemaps/level1'
     },
     gameControls   = require('gameControls'),
-    playerInstance = require('playerFactory').create(),
+    playerInstance = require('playerFactory').getInstance(),
     mapManager     = require('mapManager').create({maps:levelMaps}),
     stateStorage   = require('stateStorage').getInstance({currentSceneName:'scene1'});
 
