@@ -59,15 +59,20 @@ scene.prototype = {
             title.anchor.set(0.5);
         
         //--- New game button:
-        var newGameButton = { button: __('New game'), options: { onDown:function(o){ game.extentions.sceneManager.next('scene1'); } } };
+        var newGameButton = { button: __('New game'), options: { onDown:function(o){ 
+                //--- Reset the game data:
+                gameStorage.reset();    
+                //--- Goto scene:
+                game.extentions.sceneManager.next('scene1'); 
+            } } };
         
         //--- Load last game:
         var lastGameData = gameStorage.load(globals.get('gameName')),
             resumeButton = null;
         if (lastGameData) {
-            resumeButton = { button: __('Resume'),   options: { onDown:function(o){
+            resumeButton = { button: __('Resume'), options: { onDown:function(o){
                 //--- Restore old game data:
-                gameStorage.init();
+                gameStorage.apply();
                 //--- Goto scene:
                 game.extentions.sceneManager.next(lastGameData.scene); 
             } } };
@@ -134,7 +139,7 @@ scene.prototype = {
     showMainMenu: function (onComplete, time) {
         this.twMainMenu = this.game.add.tween(this.mainMenu.group);
         if (onComplete) this.twMainMenu.onComplete.addOnce(onComplete, this);
-        this.twMainMenu.to( { y: this.game.camera.view.centerY }, time || 500, Phaser.Easing.Linear.None, true, 0, 0, false);
+        this.twMainMenu.to( { y: this.game.camera.view.centerY -10 }, time || 500, Phaser.Easing.Linear.None, true, 0, 0, false);
     },
 
     showTitle: function (time) {
