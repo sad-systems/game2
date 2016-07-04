@@ -1,82 +1,83 @@
 {
 "frames": {
+	"strawberry.png": {
+		"frame": {"x":0, "y":0, "w":32, "h":25},
+		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
+		"sourceSize": {"w":32,"h":25}
+	},    
 	"apple.png": {
-		"frame": {"x":33, "y":52, "w":32, "h":25},
-		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
-		"sourceSize": {"w":32,"h":25}
-	},
-	"banana.png": {
-		"frame": {"x":66, "y":104, "w":32, "h":25},
-		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
-		"sourceSize": {"w":32,"h":25}
-	},
-	"burger.png": {
-		"frame": {"x":66, "y":78, "w":32, "h":25},
-		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
-		"sourceSize": {"w":32,"h":25}
-	},
-	"cake.png": {
-		"frame": {"x":66, "y":52, "w":32, "h":25},
-		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
-		"sourceSize": {"w":32,"h":25}
-	},
-	"candy.png": {
-		"frame": {"x":66, "y":26, "w":32, "h":25},
+		"frame": {"x":32, "y":0, "w":32, "h":25},
 		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
 		"sourceSize": {"w":32,"h":25}
 	},
 	"cherry.png": {
-		"frame": {"x":66, "y":0, "w":32, "h":25},
+		"frame": {"x":64, "y":0, "w":32, "h":25},
 		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
 		"sourceSize": {"w":32,"h":25}
-	},
-	"cream.png": {
-		"frame": {"x":33, "y":104, "w":32, "h":25},
-		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
-		"sourceSize": {"w":32,"h":25}
-	},
-	"donut.png": {
-		"frame": {"x":33, "y":78, "w":32, "h":25},
-		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
-		"sourceSize": {"w":32,"h":25}
-	},
-	"drink.png": {
-		"frame": {"x":99, "y":0, "w":32, "h":25},
-		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
-		"sourceSize": {"w":32,"h":25}
-	},
+	},  
 	"grapes.png": {
-		"frame": {"x":33, "y":26, "w":32, "h":25},
+		"frame": {"x":96, "y":0, "w":32, "h":25},
 		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
 		"sourceSize": {"w":32,"h":25}
-	},
+	},    
+	"donut.png": {
+		"frame": {"x":128, "y":0, "w":32, "h":25},
+		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
+		"sourceSize": {"w":32,"h":25}
+	},        
+	"burger.png": {
+		"frame": {"x":160, "y":0, "w":32, "h":25},
+		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
+		"sourceSize": {"w":32,"h":25}
+	},        
+	"cream.png": {
+		"frame": {"x":192, "y":0, "w":32, "h":25},
+		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
+		"sourceSize": {"w":32,"h":25}
+	},        
 	"ice-cream.png": {
-		"frame": {"x":33, "y":0, "w":32, "h":25},
+		"frame": {"x":224, "y":0, "w":32, "h":25},
 		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
 		"sourceSize": {"w":32,"h":25}
-	},
-	"juice.png": {
-		"frame": {"x":0, "y":104, "w":32, "h":25},
+	},        
+        
+	"watermelon.png": {
+		"frame": {"x":0, "y":25, "w":32, "h":25},
+		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
+		"sourceSize": {"w":32,"h":25}
+	},        
+	"banana.png": {
+		"frame": {"x":32, "y":25, "w":32, "h":25},
 		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
 		"sourceSize": {"w":32,"h":25}
 	},
 	"pineapple.png": {
-		"frame": {"x":0, "y":78, "w":32, "h":25},
+		"frame": {"x":64, "y":25, "w":32, "h":25},
 		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
 		"sourceSize": {"w":32,"h":25}
 	},
-	"strawberry.png": {
-		"frame": {"x":0, "y":52, "w":32, "h":25},
+	"drink.png": {
+		"frame": {"x":96, "y":25, "w":32, "h":25},
 		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
 		"sourceSize": {"w":32,"h":25}
 	},
 	"sweet.png": {
-		"frame": {"x":0, "y":26, "w":32, "h":25},
+		"frame": {"x":128, "y":25, "w":32, "h":25},
+		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
+		"sourceSize": {"w":32,"h":25}
+	},        
+	"juice.png": {
+		"frame": {"x":160, "y":25, "w":32, "h":25},
 		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
 		"sourceSize": {"w":32,"h":25}
 	},
-	"watermelon.png": {
-		"frame": {"x":0, "y":0, "w":32, "h":25},
+	"candy.png": {
+		"frame": {"x":192, "y":25, "w":32, "h":25},
+		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
+		"sourceSize": {"w":32,"h":25}
+	},
+	"cake.png": {
+		"frame": {"x":224, "y":25, "w":32, "h":25},
 		"spriteSourceSize": {"x":0,"y":0,"w":32,"h":25},
 		"sourceSize": {"w":32,"h":25}
 	}
@@ -84,7 +85,7 @@
 },
 "meta": {
 	"image": "sprites.png",
-	"size": {"w": 132, "h": 130},
+	"size": {"w": 256, "h": 50},
 	"scale": "1"
 }
 }
