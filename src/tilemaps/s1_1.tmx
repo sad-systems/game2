@@ -455,6 +455,7 @@
   <object id="36" name="StartPoint" type="1" x="100" y="349" width="48" height="50"/>
   <object id="37" name="Door1" x="700" y="675" width="50" height="50">
    <properties>
+    <property name="gate_target" value="::scEmpty"/>
     <property name="lock" value=""/>
    </properties>
   </object>

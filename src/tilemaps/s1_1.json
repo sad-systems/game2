@@ -171,10 +171,12 @@
                  "name":"Door1",
                  "properties":
                     {
+                     "gate_target":"::scEmpty",
                      "lock":""
                     },
                  "propertytypes":
                     {
+                     "gate_target":"string",
                      "lock":"string"
                     },
                  "rotation":0,
