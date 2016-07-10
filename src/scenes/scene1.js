@@ -12,7 +12,8 @@ var
         //level2: 'tilemaps/level2',
         //level3: 'tilemaps/level3',
         //level4: 'tilemaps/level4',
-        level1: 'tilemaps/s1_1'
+        s1_1:      'tilemaps/s1_1',
+        s1_house1: 'tilemaps/s1_house1'
     },
     gameControls   = require('gameControls'),
     playerInstance = require('playerFactory').getInstance(),
