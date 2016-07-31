@@ -8,12 +8,11 @@
 var 
     menuScene      = 'scMainMenu', //'scLogo',
     levelMaps      = {
-        //level5: 'tilemaps/level5',
-        //level2: 'tilemaps/level2',
-        //level3: 'tilemaps/level3',
-        //level4: 'tilemaps/level4',
         s1_1:      'tilemaps/s1_1',
-        s1_house1: 'tilemaps/s1_house1'
+        s1_house1: 'tilemaps/s1_house1',
+        s1_house2: 'tilemaps/s1_house2',
+        s1_house3: 'tilemaps/s1_house3',
+        s1_house4: 'tilemaps/s1_house4'
     },
     gameControls   = require('gameControls'),
     playerInstance = require('playerFactory').getInstance(),
