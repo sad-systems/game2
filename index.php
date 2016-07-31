@@ -7,7 +7,7 @@ $config = [
 ];
 extract($config);
 ?>
-<html>
+<html xmanifest="game.appcache">
     <head>
         <title><?= $title ?></title>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
