@@ -30,7 +30,7 @@ var config = {
         //...
         //}
     ,
-    minify: false,
+    minify: false, //false,
     minifySuffix: '', //.min
     debug:  true
 };

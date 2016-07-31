@@ -29,7 +29,7 @@ var scene = function () {};
         preload: function() {
             
             // Static images:
-            this.game.load.image('background', 'assets/bg/1/sc1bg2.jpg');
+            this.game.load.image('background', 'assets/bg/1/sc1bg.jpg');
             
             //--- Game controls:
             gameControls.preload(this.game);
