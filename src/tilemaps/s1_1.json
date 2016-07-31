@@ -210,7 +210,7 @@
                 {
                  "height":50,
                  "id":39,
-                 "name":"door1x",
+                 "name":"doorTest",
                  "properties":
                     {
                      "gate_target":"door1:s1_house4",
@@ -226,7 +226,7 @@
                  "visible":true,
                  "width":50,
                  "x":0,
-                 "y":1100
+                 "y":975
                 }, 
                 {
                  "height":50,

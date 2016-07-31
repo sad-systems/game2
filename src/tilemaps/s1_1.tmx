@@ -735,7 +735,7 @@
     <property name="lock" value=""/>
    </properties>
   </object>
-  <object id="39" name="door1x" x="0" y="1100" width="50" height="50">
+  <object id="39" name="doorTest" x="0" y="975" width="50" height="50">
    <properties>
     <property name="gate_target" value="door1:s1_house4"/>
     <property name="lock" value=""/>
