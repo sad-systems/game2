@@ -1,11 +1,17 @@
 <!DOCTYPE html>
 <?php
+
+require_once 'language.php';
+
+$userLanguage = @digger\cradle\application\Language::getLanguage(true);
+
 $config = [
     'title'       => 'Advantures of Tosha - Enchanted Castle',
     'description' => '(c) 2016 SAD Systems - Game project',
     'keywords'    => 'game, html5, phaser, sad-systems',
 ];
 extract($config);
+
 ?>
 <html xmanifest="game.appcache">
     <head>
@@ -24,6 +30,7 @@ extract($config);
     <script src="build/phaser.min.js"></script>
     <script src="build/bundle.js"></script>
     <script>
+        window.userLanguage = '<?= $userLanguage ?>';
         var application = require('application');
             application.run();
     </script>
