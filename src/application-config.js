@@ -16,7 +16,7 @@ module.exports = {
         //state: this,
         scaleMode: Phaser.ScaleManager.SHOW_ALL
     },
-    mainSceneName: "scMainMenu" //scMainMenu scLogo scene1 scHelp
+    mainSceneName: "scLogo" //scMainMenu scLogo scene1 scHelp
 };
 
 
