@@ -20,7 +20,7 @@ scene.prototype = {
     preload: function () {
         
         //--- Static images:
-        this.game.load.image('emptyBg', 'assets/bg/1/bg.jpg');
+        this.game.load.image('emptyBg', 'assets/bg/1/sc1bg.jpg');
         
         //--- Atlas:
         this.game.load.atlas('dragon', 'assets/sprites/dragon/dragon.png', 'assets/sprites/dragon/dragon.json');

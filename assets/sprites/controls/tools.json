@@ -79,6 +79,16 @@
 		"frame": {"x":100, "y":50, "w":50, "h":50},
 		"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
 		"sourceSize": {"w":50,"h":50}
+	},
+	"VK.png": {
+		"frame": {"x":100, "y":100, "w":50, "h":50},
+		"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+		"sourceSize": {"w":50,"h":50}
+	},
+	"FB.png": {
+		"frame": {"x":100, "y":150, "w":50, "h":50},
+		"spriteSourceSize": {"x":0,"y":0,"w":50,"h":50},
+		"sourceSize": {"w":50,"h":50}
 	}
 },
 "meta": {

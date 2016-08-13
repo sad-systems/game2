@@ -12,16 +12,17 @@
   "author": "Mr Digger <mrdigger@mail.ru> (http://sad-systems.ru/)",
   "license": "ISC",
   "dependencies": {
+    "browserify": "",
+    "event-stream": "",
+    "extend": "^3.0.0",
     "gulp": "^3.9.0",
-    "gulp-uglify": "",
-    "gulp-uglifycss": "",
-    "gulp-rename": "",
     "gulp-concat": "",
     "gulp-gzip": "",
-    "event-stream": "",
+    "gulp-rename": "",
+    "gulp-uglify": "",
+    "gulp-uglifycss": "",
     "minimist": "",
-    "browserify": "",
-    "vinyl-source-stream": "",
-    "vinyl-buffer": ""
+    "vinyl-buffer": "",
+    "vinyl-source-stream": ""
   }
 }

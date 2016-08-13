@@ -6,12 +6,17 @@
 var gulp       = require('gulp');
 var browserify = require('browserify');
 var source     = require('vinyl-source-stream');
+var extend     = require('extend'); // clone object funtion v1
+//var extend = require('util')._extend; // clone object funtion v2 (problem)
 
 //==============================================================================
 // Config
 //==============================================================================
 
+//--- Develope mode config:
+
 var config = {
+    name: '=== Develope mode ===',
     basedir:      'src/', 
     destination:  'build/bundle.js',
     addFiles:     {
@@ -35,6 +40,18 @@ var config = {
     debug:  true
 };
 
+//--- Production mode config:
+
+var config_production = extend(true, {}, config, { 
+    name: '=== Production mode ===', 
+    minify:true, 
+    debug:false
+});
+
+//--- Default config:
+
+var config_default = config;
+
 //==============================================================================
 // Tasks
 //==============================================================================
@@ -43,15 +60,43 @@ var config = {
  * Watch Task
  * 
  */ 
-gulp.task('watch', function(){
-  gulp.watch([config.basedir + '**/*.js', config.basedir + '**/*.json'], ['default']);
-});
+gulp.task('watch', function(){ gulp.watch([config.basedir + '**/*.js', config.basedir + '**/*.json'], ['default']); });
 
 /**
- * Build complite bundle.js
+ * Build complite bundle by default
  * 
  */
-gulp.task('default', function () {
+gulp.task('default', function() { build(config_default); });
+
+/**
+ * Build develope bundle
+ * 
+ */
+gulp.task('dev',  function() { build(config); });
+
+/**
+ * Build production bundle 
+ * 
+ */
+gulp.task('prod', function() { build(config_production); });
+
+//==============================================================================
+// Implementation
+//==============================================================================
+
+/**
+ * Main build function
+ * 
+ * @param   {object} config
+ * @returns nothing
+ */
+function build(config) {
+    
+    var configName = config.name;
+    delete config.name;
+    console.log(configName);
+    console.log(config);
+    console.log('-----------------------------------');
     
     function pushData(funcPush, inputData) {
         if (inputData) {
@@ -114,4 +159,7 @@ gulp.task('default', function () {
     //    console.error(e);
     //}
     
-});
+    console.log('-----------------------------------');
+    console.log('Destination: ' + config.destination);
+    
+}

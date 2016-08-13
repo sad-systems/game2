@@ -109,6 +109,15 @@ scene.prototype = {
                 Sound: { state:audio.getSoundState(), onDown:function(o){ o.setState(audio.toggleSoundState()); globals.set('soundEnable', audio.getSoundState()); } }
             }
         });
+        //--- Social nets buttons:
+        var sb = toolButtons.create({game:game, x:10, y:420,
+            //leftSide: false,
+            frameControlName : null,
+            buttons:{
+                VK: { state:1, onDown:function(o){ window.open('https://vk.com/adventures_of_tosha', '_blank'); } },
+                FB: { state:1, onDown:function(o){ window.open('https://www.facebook.com/Adventures-of-tosha-233330830400794', '_blank'); } }
+            }
+        });        
         
         //--- Language button:
         function changeLang() {
